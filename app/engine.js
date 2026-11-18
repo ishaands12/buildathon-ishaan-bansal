@@ -26,8 +26,8 @@ export function getIntent(text) {
  if(/sale|business|aaj|today|revenue|bikri|बिक्री|बिकरी|सेल|धंधा|दुकान|आज/.test(q)) return 'sales';
  return 'unknown';
 }
-export function respond(text,data,cases) {
- const intent=getIntent(text);
+export function respond(text,data,cases,override) {
+ const intent=override || getIntent(text);
  if(intent==='stock'){const c=cases.find(x=>x.area==='Inventory');return c?`${c.summary} ${c.evidence.join(' · ')} ${c.uncertainty}`:'No item is below the 3-day stock threshold in the demo data.';}
  if(intent==='cash'){const c=cases.find(x=>x.id==='reconcile');return c?`${c.summary} ${c.uncertainty}`:'The demo cash and UPI totals match.';}
  if(intent==='udhaar')return `Total udhaar is ${money(data.receivables.reduce((a,x)=>a+x.amount,0))}. ${cases.find(x=>x.id==='udhaar')?.summary || ''} Check for recent payments first.`;
