@@ -19,7 +19,7 @@ export function extractMessages(payload){
  return output;
 }
 export async function classifyLocally(question,fetcher=fetch){
- const res=await fetcher('http://127.0.0.1:11434/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(6000),body:JSON.stringify({model:process.env.BIZ_OLLAMA_MODEL||'qwen2.5-coder:7b',format:'json',stream:false,options:{temperature:0},messages:[{role:'system',content:'Classify the question into zero or more tasks from sales, cash, stock, udhaar, staff. Return JSON only: {"tasks":["cash","stock"]}. Unsupported requests: {"tasks":[]}. Do not answer or calculate.'},{role:'user',content:question}]})});
+ const res=await fetcher('http://127.0.0.1:11434/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(6000),body:JSON.stringify({model:process.env.BIZ_OLLAMA_MODEL||'qwen2.5-coder:7b',format:'json',stream:false,options:{temperature:0},messages:[{role:'system',content:'Classify the question into zero or more tasks from sales, cash, stock, udhaar, staff, menu, finance. Return JSON only: {"tasks":["cash","stock"]}. Unsupported requests: {"tasks":[]}. Do not answer or calculate.'},{role:'user',content:question}]})});
  if(!res.ok)throw Error('classifier unavailable');const data=await res.json();return {tasks:validatePlan(data.message?.content)};
 }
 export async function answerMessage(msg,{classify=classifyLocally}={}){
