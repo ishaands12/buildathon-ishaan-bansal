@@ -12,7 +12,7 @@ BIz is a conversational business companion for Indian shop and café owners. Ask
 
 1. Open the [chat](https://biz-meltado-assistant.vercel.app/). AI responses are available automatically.
 2. Try “Cash aur UPI mein kya difference hai?”, “Milk stock kab khatam hoga?” or ask a follow-up. BIz shows the model's response and the calculations it used. Message tone is an estimate of the current message, not a diagnosis.
-3. Choose **Upload sales** to analyse your own CSV, or **Dashboard** for the fictional café's trends, decisions and agent activity.
+3. Choose **Upload document** to analyse a CSV, text file or text-based PDF, or **Dashboard** for the fictional café's trends, decisions and agent activity.
 4. Review a suggested message and simulate sending it. **No real messages, orders or payments are sent.**
 
 ## How it works
@@ -21,11 +21,11 @@ The chat orchestrator routes supported questions to deterministic sales, cash, s
 
 The dashboard and ordinary chat use the illustrative Meltado dataset. CSV analysis is a separate path and does not update the dashboard. Voice input and output depend on the browser; audio may be processed by the browser's provider. WhatsApp adapters are experimental and not connected to this deployment.
 
-## Upload a sales file
+## Analyse a document
 
-Choose **Upload sales** and select a UTF-8 CSV containing an `amount` column in rupees. Optional `item` and `date` columns add item totals and distinct date values. Negative values are included, for example as refunds. [Download the sample](docs/sample-sales.csv).
+Choose **Upload document** and select a CSV, TXT, Markdown or text-based PDF under 2 MB. BIz extracts up to the first 20 PDF pages and first 12,000 characters, sends that text to Inception for analysis, and keeps the document active for follow-up questions. Remove it using the upload dialog to return to the Meltado simulation. The dashboard is not updated by uploads.
 
-The file itself is read in browser memory. When you ask about the uploaded file, its calculated summary and your question are sent to Inception to generate a response. Check that the rows cover the intended period and don't contain duplicates; sales totals are not profit. PDF, Excel, scanned receipts and general document analysis are not supported.
+A CSV with an `amount` column also gets an exact rupee calculation; other CSV formats are still analysed by AI. Confirm any generated figures and conclusions against the source. Scanned PDFs, OCR and Excel are not supported. PDF text extraction uses PDF.js loaded from a public CDN. Do not upload sensitive information you are not comfortable sending to Inception.
 
 ## Run locally
 

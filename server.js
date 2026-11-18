@@ -16,7 +16,7 @@ http.createServer(async(req,res)=>{
   if(req.method==='POST' && path==='/api/chat'){
    const origin=req.headers.origin;
    if(origin && origin!==`http://localhost:${port}` && origin!==`http://127.0.0.1:${port}`){res.writeHead(403).end();return}
-   let body='';for await(const chunk of req){body+=chunk;if(body.length>16000){res.writeHead(413).end();return}}
+   let body='';for await(const chunk of req){body+=chunk;if(body.length>24000){res.writeHead(413).end();return}}
    try{const upstream=await fetch('https://biz-meltado-assistant.vercel.app/api/chat',{method:'POST',headers:{'Content-Type':'application/json','X-BIz-Code':String(req.headers['x-biz-code']||'')},body,signal:AbortSignal.timeout(26000)});res.writeHead(upstream.status,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(await upstream.text())}catch{res.writeHead(503,{'Content-Type':'application/json'}).end(JSON.stringify({error:'AI unavailable'}))}return;
   }
   if(req.method==='POST' && path==='/api/intent'){
