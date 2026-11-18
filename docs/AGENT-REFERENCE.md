@@ -1,83 +1,71 @@
-# BIz agent system reference
+# BIz system reference
 
-**Version:** Hackathon prototype, 18 November 2026. **Track:** Physical World. This document describes the implementation in this repository, not a production system or a set of independently autonomous LLM agents.
+**Track:** AI Agents (`team.json`). **Status:** demonstration, not a production service or a collection of autonomous LLM agents.
 
-## Product and evidence
+BIz helps a shop or café owner explore operational questions in chat. The current implementation combines a rule-based router, deterministic business calculations and a model-written response. Its agent labels refer to software specialists, not independent LLMs. The model does not independently select tools, execute purchases or contact people.
 
-Small café owners must reconcile several operational signals while running the shop. BIz demonstrates a conversational interface that routes questions to bounded specialists, computes basic metrics and proposes an action for human review. The dashboard provides the same simulated shop data and displays the routing structure.
+## Data and provenance
 
-Meltado is a public-menu-inspired demonstration, not a partnership or a connection to its systems. Twelve selected item names and listed prices were taken from the [Karkardooma online menu](https://www.zomato.com/ncr/meltado-1-karkardooma-new-delhi/order); prices may have changed or vary by channel. Sales, costs, stock, staff, transactions, customer names, suppliers and charts are fictional. No representative customer interview or production outcome has been verified.
+The Meltado scenario is an independent simulation, not a connection to the café or an endorsement. Twelve item names and listed prices are a [public menu snapshot](https://www.zomato.com/ncr/meltado-1-karkardooma-new-delhi/order), accessed 18 November 2026; they are not a complete or guaranteed-current menu. All sales quantities, costs, inventory, staff, customers, suppliers, charts and actions are fictional. There is no documented merchant interview or verified business outcome.
 
-## Architecture and trust boundaries
+## Deployed chat architecture
 
 ```mermaid
 flowchart LR
- U[Owner text / browser voice] --> UI[Chat interface]
- UI --> P[Orchestrator]
- P --> C[Optional local Ollama classifier]
- P --> R[Rules fallback]
- C --> V[Validate allowlisted tasks]
- R --> V
- V --> S[Deterministic specialists]
- D[Browser sample data] --> S
- S --> E[Numbers, caveats, proposed action]
+ U[Owner text or browser voice] --> UI[Chat]
+ UI --> R[Rule-based router]
+ D[Browser demo data] --> S[Deterministic specialists]
+ R --> S
+ S --> E[Calculated evidence and caveats]
+ F[Uploaded document text] --> E
+ E --> API[Vercel chat endpoint]
+ UI --> API
+ API --> M[Inception Mercury]
+ M --> UI
  E --> UI
- UI --> A[Owner reviews simulated message]
- UI --> L[Local browser activity]
- W[Meta / Twilio adapters: test only] --> P
+ UI --> A[Owner reviews simulated action]
 ```
 
-Classifier receives the question, not shop data. Voice recognition may use a browser provider's remote service. Dashboard and chat read/write browser localStorage; the separate messaging adapters use the static seed and do not read browser edits. Static hosting has no Node/Ollama endpoint and falls back to rules. The dashboard model status is an availability check, not proof a particular answer used the model.
+1. `app/main.js` receives the question. When a document is active, it uses extracted document text and, where available, a deterministic CSV calculation instead of the simulated shop figures.
+2. For normal demo questions, `app/agent.js` uses keyword rules and `getIntent` to select one or more specialists. Chat currently calls the orchestrator without a model classifier. Rules can miss requests or match the wrong specialist.
+3. `app/engine.js` and `app/meltado.js` generate the relevant calculations and caveats. `api/chat.js` sends the question, up to six recent messages and the selected evidence to Inception Mercury, which generates a response and an estimated sentiment label for the current message.
+4. The browser displays the model response and, for supported shop queries, the original calculated evidence. Model text may still misstate figures; the source figures are provided for checking. On an API error or malformed output, the chat identifies the fallback and shows local evidence where available. If there is no calculation for an uploaded document, it asks the user to retry rather than claiming to have analysed it.
+5. Suggested messages are editable simulations. The interface does not send WhatsApp messages, place orders or make payments.
 
-## Component contracts
+The separate local `/api/intent` and hosted `api/intent.js` endpoints can classify labels, and the orchestrator accepts an optional classifier. They are **not** used by the current main chat path. The experimental Meta and Twilio adapters are separate services, use seed data, and are not connected to the deployed chat.
 
-| Component | Input → output | Implementation and tools | Boundaries and failure behavior |
-|---|---|---|---|
-| Voice interface | Microphone → browser transcript → question; answer → browser speech | Browser `SpeechRecognition` and `speechSynthesis` in `app/main.js` | Browser/permission/network dependent; audio may leave device. No WhatsApp voice-note transcription. Typed fallback. |
-| Classifier | Question → JSON `{tasks:[...]}` | `POST /api/intent` in `server.js`; local `qwen2.5-coder:7b` by default, 30-second timeout | Model only chooses labels; response is allowlisted, deduplicated and capped. Model can choose wrong labels; prompt injection and language coverage are not comprehensively evaluated. |
-| Fallback planner | Question → task labels | `fallbackPlan` regexes in `app/agent.js` | Runs even when classifier returns labels; false positives and missed synonyms possible. No intent → unsupported response. |
-| Orchestrator | Question + data + cases + optional classifier → tasks, source and results | `orchestrate` in `app/agent.js`; invokes deterministic handlers through `respond` | Merges model and rules; `Promise.all` runs functions, not independent autonomous agents. `source` records model if it produced any valid label, even if rules added others. |
-| Action generator | Shop inputs → evidence cards and drafts | `makeCases` in `app/engine.js` | Recommendations are heuristic; drafts are simulated. No actual purchase, payment or employee action. |
-| Dashboard/activity | Browser state → metrics, chart, run records | `app/dashboard.js`, `app/cafe-sections.js`, `app/state.js` | localStorage is per-browser, unencrypted and user-editable; not an audit-grade log. No live business connection. |
-| WhatsApp Cloud adapter | Signed Meta webhook → answer → Cloud API text reply | `whatsapp/server.js`, `whatsapp/bot.js`; signature, allowlist, receiving number, in-memory dedupe | Prepared and locally tested; no live Meta setup. Sample seed only; voice notes unsupported. In-memory dedupe resets on restart and is not durable. |
-| Twilio adapter | Signed form webhook → TwiML response | `twilio/server.js`, `twilio/handler.js`; Twilio SDK verification, allowlist | Inbound test reached BIz but the limited trial did not deliver direct reply; direct REST test returned 21654. No working real WhatsApp demo established. |
+## Specialists and calculations
 
-## Specialist cards
+The specialists are deterministic handlers in `app/engine.js` and `app/meltado.js`:
 
-All specialist results are deterministic functions over supplied values. They do not call an LLM or act independently. See `app/engine.js`, `app/meltado.js` and `app/agent.js`.
+| Specialist | Operation | Limits |
+|---|---|---|
+| Sales | Compares today's sales with a previous value; handles a zero comparison. | The comparison does not explain the cause and revenue is not profit. |
+| Cash and UPI | Compares expected and observed amounts separately. | A difference may reflect settlement timing or entry errors; it is not evidence of wrongdoing. |
+| Inventory | Computes stock ÷ daily use, flags less than three days, and estimates a seven-day reorder rounded to packs. | Assumes usage continues and excludes pending orders and changing demand. It returns the first flagged item, which may not be the one asked about. |
+| Udhaar | Sums receivables and identifies an older balance for a suggested reminder. | Cannot verify current payments or real credit terms. |
+| Staff | Displays fictional roles and attributed sales where present. | Does not rate employees or measure productivity. |
+| Menu | Selects the highest sample item revenue from price × units. | Does not establish actual popularity, margin or real café sales. |
+| Finance | Computes sample revenue minus assumed ingredient costs. | Contribution is not net profit and excludes other costs and taxes. |
 
-| Specialist | Input and operation | Example with sample data | What it does not know |
-|---|---|---|---|
-| Sales | Compare `today` and `previous`; `(today / previous - 1) × 100`; handles zero baseline | ₹33,470 vs ₹30,458 ≈ +9.9% | Why a change happened; revenue is not profit. |
-| Cash & UPI | Expected − observed separately for cash and UPI; positive = short, negative = over | Cash ₹750 short; UPI ₹1,600 short | Pending settlements, timing, mistakes; does not imply theft. |
-| Inventory | Cover = stock ÷ daily usage; flag `<3` days. Reorder = max(pack, ceil((7×daily − stock)/pack)×pack) | Milk 8 L ÷ 5 L/day = 1.6 days; 30 L in 5 L packs, assumed ₹1,950 | Demand variation, expiry, lead time, supplier confirmation and pending orders. |
-| Udhaar | Sum all balances; choose largest balance with age ≥7 days | Total ₹8,000; sample office order ₹4,800 at 12 days | Actual ledger, credit terms, recent settlement. |
-| Staff | Display names, roles and attributed sales where present | Three fictional roles; no performance ranking | Shifts, tasks, fairness, productivity, working conditions. Never infer wrongdoing. |
-| Menu | Sort sample items by `price × units`, return first | Classic Cold Coffee ₹3,720 = 31 × ₹120 | Actual sales, availability, discounts; “top” means gross revenue among sampled items, not units or margin. |
-| Finance | Sum menu revenue and assumed ingredient cost; subtract for contribution | ₹33,470 − ₹13,907 = ₹19,563 | Real recipes, VAT/GST treatment, discounts, delivery fees, waste, financing. Not net profit. |
+For the sample milk case, 8 L ÷ 5 L/day = 1.6 days of cover. The suggested order is 30 L, based on a seven-day target, five-litre packs and the sample assumptions. Money display in these specialists is rounded to whole rupees; this is not an accounting or tax system.
 
-## Operational behavior and caveats
+## Document analysis
 
-- Editing cash/UPI, milk stock and first receivable in the chat updates this browser’s stored sample and recalculates cases. It does not change messaging seed data or the menu quantities.
-- Suggested WhatsApp/email drafts can be edited and marked simulated. No external communication occurs from the UI.
-- The stock answer returns the first flagged stock case, not necessarily the particular item asked for. A no-alert response does not mean every product is in stock.
-- Money display rounds to whole rupees; intermediate values are JavaScript numbers. The prototype is not suitable for accounting or tax decisions.
-- The dashboard's sample remainder excludes taxes, fees, waste, financing and other missing costs. Never present it as real profit.
-- No user authentication, multi-tenant storage, live POS import, production secret manager, durable queue, or real WhatsApp voice exists.
+The upload interface accepts CSV, plain text, Markdown and text-based PDFs up to 2 MB. PDF.js is loaded from a public CDN to extract up to 20 pages. At most 12,000 characters are provided to the model; the response identifies when content is truncated. Scanned PDFs, OCR and Excel are not supported. An active upload stays in browser memory until removed or the session is lost and does not update the Meltado dashboard.
 
-## Run and demonstrate
+For a compatible CSV with a single recognized sales amount column, the browser separately calculates a total using integer paise; other CSV shapes can still be analysed by the model without a verified total. The user must check column meaning, period, taxes and duplicates. Document text, questions, conversation excerpts and relevant evidence are sent to Inception. Treat model-generated interpretations and arithmetic as unverified unless a separate deterministic calculation is shown.
 
-`npm install` (needed for Twilio tests); `npm run dev`; visit `/dashboard.html` or `/`. Run Ollama separately for optional classification; otherwise rules fallback. `npm test` runs unit tests. Use fabricated data only.
+## State, voice and security
 
-1. Open dashboard: explain sample-data banner and public price provenance.
-2. Inspect the seven-day chart and show the menu breakdown; note historical totals are synthetic.
-3. Open chat and ask “cash and inventory”; explain the classifier and two specialists.
-4. Inspect milk calculation and caveat; review a draft and explicitly show simulation confirmation.
-5. Change milk remaining from 8 to 4 litres, ask again, then return to the dashboard. Expected cover becomes 0.8 day, assuming 5 litres/day.
-6. Explain local browser storage, supported questions, and current WhatsApp limitation.
+- Sample shop edits, activity and simulated approvals are stored in browser localStorage. They are user-editable and not an audit log; separate devices and messaging adapters do not share them.
+- Speech recognition and synthesis depend on browser support and permissions. Audio may be processed by the browser provider; typing is the fallback.
+- The public deployment has no user authentication or durable rate limiting. Its server-side Inception key is not exposed in frontend source, but public users can consume its API quota. It is not suitable for sensitive business data or production use without further safeguards.
+- The system prompt asks the model to treat documents as data and avoid inventing facts, but prompt injection and incorrect answers remain possible. Sentiment is an uncertain estimate and must not be used to judge staff or diagnose mental health.
+- Meta and Twilio adapters have signature and allowlist checks in their separate implementations, but there is no verified end-to-end WhatsApp delivery in the deployed app. In-memory deduplication is not durable.
 
-Meta's webhook requires a properly configured app and HTTPS endpoint; Twilio's limited trial rejected our direct custom message. Never display or commit `.env`, auth tokens or personal phone numbers. Do not expose a local tunnel to live sensitive data.
+## Run and inspect
 
-## Current deployed chat path (November 18 update)
+Run `npm install`, then `npm run dev`; open `/` for chat and `/dashboard.html` for the workspace. The local server forwards `/api/chat` to the hosted endpoint. Run `npm test` for unit tests and `npm run build` for static assets. The Vercel deployment additionally uses the `api/` functions and a sensitive `INCEPTION_API_KEY` environment variable. Never commit credentials.
 
-The deployed chat uses deterministic rules to select specialist calculations. It sends the user's question, up to six recent messages and the selected evidence to `/api/chat`; the Vercel function calls Inception Mercury for a natural-language answer and a coarse sentiment label for the current message. The browser renders the original evidence separately. The model is prompted not to invent figures or execute actions, but this is not a formal guarantee. On upstream failure or malformed output, the chat labels the rules-based fallback. Uploading a CSV does not update the café dataset; when explicitly asked about that file its calculated summary is sent as evidence. This current path supersedes earlier local-classifier-only descriptions where they conflict. The model does not autonomously invoke specialists or execute external actions.
+Try a cash or inventory question, compare the calculated evidence with the response, and inspect a simulated draft. Upload a small document to try document analysis. The live app and tests demonstrate a prototype; they do not establish financial correctness, reliable sentiment classification, merchant impact or production readiness.

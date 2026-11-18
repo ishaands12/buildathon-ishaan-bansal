@@ -17,7 +17,7 @@ BIz is a conversational business companion for Indian shop and café owners. Ask
 
 ## How it works
 
-The chat orchestrator routes supported questions to deterministic sales, cash, stock, receivables, staff, menu and finance specialists. Those specialists calculate figures and supply evidence. An Inception Mercury model receives the question, recent chat and relevant calculated evidence and writes a contextual response with a coarse sentiment estimate. It does not perform actions. If the model cannot respond, the interface identifies the fallback and shows the local calculation instead. Model explanations can still be wrong; check the figures and assumptions.
+A rule-based chat orchestrator routes supported questions to deterministic sales, cash, stock, receivables, staff, menu and finance specialists. Those specialists calculate figures and supply evidence; the model does not independently call them as tools. An Inception Mercury model receives the question, recent chat and relevant calculated evidence and writes a contextual response with a coarse sentiment estimate. It does not perform actions. If the model cannot respond, the interface identifies the fallback and shows the local calculation instead. Model explanations can still be wrong; check the figures and assumptions.
 
 The dashboard and ordinary chat use the illustrative Meltado dataset. CSV analysis is a separate path and does not update the dashboard. Voice input and output depend on the browser; audio may be processed by the browser's provider. WhatsApp adapters are experimental and not connected to this deployment.
 
@@ -54,7 +54,7 @@ The Vercel deployment also needs the `api/` functions and sensitive `INCEPTION_A
 
 ## Project map
 
-- `app/` — chat, dashboard, business calculations and CSV analysis.
+- `app/` — chat, dashboard, business calculations and document analysis.
 - `api/` — Inception chat and intent endpoints for Vercel.
 - `docs/` — agent reference and example CSV.
 - `whatsapp/` and `twilio/` — experimental messaging adapters.
