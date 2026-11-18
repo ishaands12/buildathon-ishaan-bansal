@@ -173,3 +173,7 @@ For a Meta test setup:
 5. From your allowlisted WhatsApp number, send the test number “cash aur stock batao”. You should receive a text response with the sample figures. The server does not initiate conversations.
 
 The service validates Meta's HMAC signature before processing, filters the configured sender and receiving phone number ID, and deduplicates retries in memory. This is a single-process demo: duplicate protection does not survive a restart; use persistent storage, a durable queue, proper tenant authentication, encrypted storage and monitoring before handling real customers or business data. The local tunnel and server stop when their processes stop. Test tokens expire according to Meta's configuration; production messaging and hosting can have charges.
+
+### Twilio WhatsApp proof of concept
+
+The local `twilio/` adapter verifies incoming Twilio signatures with the official SDK and produces TwiML responses for an allowlisted number. This is intended for the legacy WhatsApp Sandbox only, and has not been tested against a real Twilio account. Twilio says the newer trial environment does not support direct TwiML response XML, so this adapter is not expected to work there without a different supported reply mechanism. Availability, verification, free-unit limits and pricing depend on the account; see [Twilio trial details](https://www.twilio.com/docs/usage/trials/try-out-whatsapp). It remains a demo with fictional data and no voice notes or real business actions.
