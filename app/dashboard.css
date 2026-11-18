@@ -127,3 +127,10 @@ th{color:#b1aeab;border-color:#333}td{color:#c2bfbc;border-color:#29292b}td stro
 a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #ff8d86;outline-offset:3px}
 @media(max-width:1000px){.brand .logo{width:44px;min-width:44px;text-align:center;font-size:25px;letter-spacing:-.06em}.sidebar-bottom .avatar{color:#f1d9d8}}
 @media(max-width:720px){.brand .logo{width:38px;min-width:38px;font-size:22px;line-height:35px}.heading h1{font-size:32px}.metric strong{font-size:24px}.panel h2{font-size:20px}.cafe-kpis>div:nth-child(-n+2){border-bottom-color:#343436}}
+/* Subtle chart entrance; values remain readable throughout. */
+@keyframes biz-bar-rise{from{transform:scaleY(.02);opacity:.45}to{transform:scaleY(1);opacity:1}}
+@keyframes biz-value-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.chart-bar{transform-origin:bottom;animation:biz-bar-rise .7s cubic-bezier(.2,.7,.2,1) both;transition:filter .2s ease}
+.chart-col:nth-child(2) .chart-bar{animation-delay:.05s}.chart-col:nth-child(3) .chart-bar{animation-delay:.1s}.chart-col:nth-child(4) .chart-bar{animation-delay:.15s}.chart-col:nth-child(5) .chart-bar{animation-delay:.2s}.chart-col:nth-child(6) .chart-bar{animation-delay:.25s}.chart-col:nth-child(7) .chart-bar{animation-delay:.3s}
+.chart-col>span{animation:biz-value-in .45s .3s both}.chart-col:hover .chart-bar{filter:brightness(1.25)}
+@media(prefers-reduced-motion:reduce){.chart-bar,.chart-col>span{animation:none;transition:none}}
