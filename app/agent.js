@@ -6,7 +6,7 @@ const signals={
  finance:/margin|profit|cost|expense|food cost|लागत|मुनाफ/i,
  sales:/sale|revenue|bikri|बिक्री|बिकरी|सेल/i,
  cash:/cash|upi|payment|settle|mismatch|कैश|नकद|यूपीआई|पेमेंट/i,
- stock:/stock|atta|order|samaan|saman|स्टॉक|आटा|सामान/i,
+ stock:/stock|atta|order|samaan|saman|milk|beans|doodh|स्टॉक|आटा|सामान|दूध/i,
  udhaar:/udhaar|udhar|credit|due|outstanding|receiv|उधार|बकाया|वसूली/i,
  staff:/staff|team|employee|aman|pooja|ravi|स्टाफ|कर्मचारी|टीम|अमन|पूजा/i,
 };
