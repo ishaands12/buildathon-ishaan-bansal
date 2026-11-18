@@ -137,7 +137,7 @@ Requires Node.js 18 or newer. No installation or API key is needed.
 npm run dev
 ```
 
-Open http://localhost:4173. Run `npm test` for the decision-engine checks. The app also consists of static files and can be hosted on a static site provider.
+Open http://localhost:4173 for the owner chat, or http://localhost:4173/dashboard.html for the business and agent dashboard. Figures, simulated approvals and limited activity are stored in the same browser, shared between the two views. Run `npm test` for the decision-engine checks. The app also consists of static files and can be hosted on a static site provider.
 
 ### Two-minute demo
 
@@ -148,7 +148,7 @@ Open http://localhost:4173. Run `npm test` for the decision-engine checks. The a
 
 ### Scope and limitations
 
-This is a local, session-only prototype with fictional data. The local server optionally uses a free Ollama model to classify requests and dispatch multiple domain specialists. The specialists are deterministic calculation modules, not independently autonomous language-model agents; supported domains are limited and arbitrary questions may not be answered. When Ollama is unavailable or the site is hosted as static files, a rules-based planner handles supported questions. It does not import accounting files, maintain a real ledger, connect to WhatsApp or email, place orders, or persist changes. Stock cover assumes recent daily sales continue and ignores pending orders; credit reminders require checking for recent payments. Test the workflow with merchants before relying on it for decisions.
+This is a local prototype with fictional data; browser data persists locally until reset or cleared. The local server optionally uses a free Ollama model to classify requests and dispatch multiple domain specialists. The specialists are deterministic calculation modules, not independently autonomous language-model agents; supported domains are limited and arbitrary questions may not be answered. When Ollama is unavailable or the site is hosted as static files, a rules-based planner handles supported questions. It does not import accounting files, maintain a real ledger, connect to WhatsApp or email, place orders, or sync changes between devices. Stock cover assumes recent daily sales continue and ignores pending orders; credit reminders require checking for recent payments. Test the workflow with merchants before relying on it for decisions.
 
 The opportunity is grounded in India's large MSME sector, but this prototype's shop, numbers and interactions are illustrative. The [Ministry of MSME annual report](https://www.msme.gov.in/sites/default/files/MSME-ANNUAL-REPORT-2024-25-ENGLISH.pdf) provides broader sector context. The [RBI's research on digital payments](https://rbi.org.in/scripts/PublicationsView.aspx?id=22459) discusses how payment histories can reveal business cash-flow patterns. Neither source validates this prototype or its assumptions.
 
