@@ -1,1 +1,14 @@
-{"name":"biz-shop-agent","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node server.js","test":"node --test app/*.test.js"},"engines":{"node":">=18"}}
+{
+  "name": "biz-shop-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "test": "node --test app/*.test.js whatsapp/*.test.js",
+    "whatsapp": "node whatsapp/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
