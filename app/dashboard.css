@@ -135,3 +135,4 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #ff
 .chart-col>span{animation:biz-value-in .45s .3s both}.chart-col:hover .chart-bar{filter:brightness(1.25)}
 @media(prefers-reduced-motion:reduce){.chart-bar,.chart-col>span{animation:none;transition:none}}
 .is-hidden{display:none!important}.overview-grid:has(.sales.is-hidden){grid-template-columns:1fr}
+.agent-link{text-decoration:none;color:inherit;display:block;transition:background .18s,border-color .18s,transform .18s}.agent-link:hover{background:#211a1a;border-color:#9c5555;transform:translateY(-2px)}.agent-link:focus-visible{outline:3px solid #f08b8d;outline-offset:3px}.agent-link strong{display:flex;justify-content:space-between}.agent-link strong b{color:#d78d8d}.agent-link em{display:block;margin-top:13px;font-size:10px;font-style:normal;font-weight:700;color:#f08b8d}@media(prefers-reduced-motion:reduce){.agent-link{transition:none}.agent-link:hover{transform:none}}

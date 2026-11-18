@@ -70,3 +70,7 @@ function showData(){
  document.querySelector('#data-form').onsubmit=e=>{e.preventDefault();const values=new FormData(e.currentTarget);for(const key of ['cashExpected','cashCounted','upiExpected','upiReceived'])data.sales[key]=Number(values.get(key));data.inventory[0].stock=Number(values.get('stock'));data.inventory[0].daily=Number(values.get('daily'));data.receivables[0].amount=Number(values.get('udhaar'));cases=makeCases(data);done.clear();saveDone(done);saveData(data);addEvent({type:'data'});log=[];initial();chat.push({who:'biz',text:'Hisaab update ho gaya. Ab sawaal poochhiye ya zaroori baatein dekhiye.'});render()};
 }
 initial();render();
+const agentQuestions={sales:'How are today’s sales compared with the previous day?',cash:'Cash aur UPI mein kya difference hai?',stock:'Which stock needs reordering?',udhaar:'How much udhaar is outstanding?',staff:'Tell me about the staff and their roles.',menu:'Which menu items sell best?',finance:'What is the food cost and contribution?'};
+const agentId=new URLSearchParams(location.search).get('agent');
+if(agentId&&Object.hasOwn(agentQuestions,agentId)){history.replaceState(null,'',location.pathname);ask(agentQuestions[agentId])}
+
