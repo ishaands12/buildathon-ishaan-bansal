@@ -67,7 +67,7 @@ All specialist results are deterministic functions over supplied values. They do
 
 ## Run and demonstrate
 
-`npm install` (needed for Twilio tests); `npm run dev`; visit `/dashboard.html` or `/`. Run Ollama separately for optional classification; otherwise rules fallback. `npm test` runs unit tests; `node docs/evaluate.mjs` runs the small curated fallback routing set. Use fabricated data only.
+`npm install` (needed for Twilio tests); `npm run dev`; visit `/dashboard.html` or `/`. Run Ollama separately for optional classification; otherwise rules fallback. `npm test` runs unit tests. Use fabricated data only.
 
 1. Open dashboard: explain sample-data banner and public price provenance.
 2. Inspect the seven-day chart and show the menu breakdown; note historical totals are synthetic.

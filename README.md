@@ -4,7 +4,7 @@
 
 BIz is a conversational business companion for Indian shop and café owners. Ask a question in English, Hindi or Hinglish and explore sales, cash, inventory, receivables and café operations in a simple chat. BIz combines specialist calculations with an AI-written explanation, so an owner can see both the answer and the figures behind it.
 
-[**Open BIz**](https://biz-meltado-assistant.vercel.app/) · [**Watch the demo video**](https://biz-meltado-assistant.vercel.app/biz-demo.mp4) · [Agent reference](docs/AGENT-REFERENCE.md) · [Evaluation](docs/HACKATHON-EVALUATION.md)
+[**Open BIz**](https://biz-meltado-assistant.vercel.app/) · [**Watch the demo video**](https://biz-meltado-assistant.vercel.app/biz-demo.mp4) · [Agent reference](docs/AGENT-REFERENCE.md)
 
 > The Meltado café is an independent **simulation**. Sales, staff, expenses and operations are fictional. Selected public menu prices are a snapshot, not a complete or current menu. BIz is not connected to Meltado or endorsed by it.
 
@@ -56,5 +56,5 @@ The Vercel deployment also needs the `api/` functions and sensitive `INCEPTION_A
 
 - `app/` — chat, dashboard, business calculations and CSV analysis.
 - `api/` — protected Inception chat and intent endpoints for Vercel.
-- `docs/` — agent reference, evaluation and example CSV.
+- `docs/` — agent reference and example CSV.
 - `whatsapp/` and `twilio/` — experimental messaging adapters.
