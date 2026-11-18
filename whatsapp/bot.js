@@ -13,7 +13,7 @@ export function extractMessages(payload){
   if(change.field!=='messages')continue;
   for(const msg of change.value?.messages||[]){
    if(typeof msg.id!=='string'||typeof msg.from!=='string')continue;
-   output.push({id:msg.id,from:msg.from,type:msg.type,text:msg.type==='text'?msg.text?.body:undefined});
+   output.push({id:msg.id,from:msg.from,phoneNumberId:change.value?.metadata?.phone_number_id,type:msg.type,text:msg.type==='text'?msg.text?.body:undefined});
   }
  }
  return output;

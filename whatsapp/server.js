@@ -23,7 +23,7 @@ const server=http.createServer(async(req,res)=>{
   if(!verifySignature(body,req.headers['x-hub-signature-256'],appSecret)){res.writeHead(401).end('Invalid signature');return}
   let payload;try{payload=JSON.parse(body.toString('utf8'))}catch{res.writeHead(400).end('Invalid JSON');return}
   if(payload.object!=='whatsapp_business_account'){res.writeHead(400).end();return}
-  for(const msg of extractMessages(payload))await processMessage(msg);
+  for(const msg of extractMessages(payload))if(msg.phoneNumberId===phoneNumberId)await processMessage(msg);
   res.writeHead(200).end('EVENT_RECEIVED');
  }catch(error){console.error('Webhook processing failed:',error.message);if(!res.headersSent)res.writeHead(500).end('Retry later')}
 });
