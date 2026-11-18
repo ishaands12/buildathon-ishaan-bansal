@@ -49,3 +49,34 @@ Before real use, obtain permissioned transaction and inventory data; validate wi
 A browser-local CSV path now sums the required amount column using integer paise, supports optional item and date columns, includes negative values, rejects malformed or ambiguous input and states its assumptions. Four unit tests cover quoted fields, refunds, invalid inputs and exact totals; the full suite passes 30 tests. This is a narrow, deterministic file analysis, not general document understanding: no PDF/OCR/Excel, accounting reconciliation, tax, profit or automated classification. The dashboard and other specialist answers continue to use simulated Meltado data and do not ingest this file. Browser upload and independent owner testing remain unverified.
 
 `npm run build` creates a static-only `dist/` directory; the hosted app will use rules rather than local Ollama. There is no verified public deployment or end-to-end WhatsApp service yet. The earlier rubric scores remain provisional; no owner research or independent evaluation has been added.
+
+## Current assessment — AI Agents track
+
+**The evidence below updates the earlier snapshot.** This is a candid internal review, not a judge's score or a general performance claim.
+
+| Dimension | Evidence | Result and remaining gap |
+|---|---|---|
+| Agent architecture | Browser rules select sales/cash/stock/receivables/staff/menu/finance specialists; deterministic outputs are passed with the question and limited history to an Inception endpoint. | Works for supported keywords, but a rules router is not a trained classifier. Specialists are modules, not autonomous agents, and the LLM does not independently call tools. This distinction matters for the AI Agents track. |
+| Conversation and sentiment | Live endpoint produced a contextual stock answer with the provided 8 L, 5 L/day and 1.6-day evidence and labelled a worried message negative. | One successful smoke test; sentiment is an uncalibrated estimate. No held-out multilingual evaluation or claim of accuracy. |
+| Numerical integrity | Deterministic calculations are shown separately below model prose; 36 automated tests pass. | Model output can still alter or invent figures; no numeric entailment checker exists. Users must compare the source figures. |
+| Unsupported or failed AI calls | Code requires an access code; rejects unauthorized calls; invalid model output results in an error, and chat explicitly displays local fallback. One unsafe-action smoke test returned an upstream error and the fallback path. | Fallback cannot answer arbitrary questions, has keyword misroutes, and has not been tested against a comprehensive adversarial set. No external action capability is exposed. |
+| Privacy and access | Vercel sensitive environment variables hold the provider key and demo access code. Questions, recent chat and selected evidence are transmitted to Inception. | One shared access code is not user authentication or rate limiting. No production security audit, tenant isolation or provider data-retention review. |
+| Usability and reliability | Static deployment, CSV parser tests, live endpoint and local proxy were exercised. Reduced-motion CSS is provided. | Automated browser launch was blocked by the environment; mobile layout, visual quality, keyboard flows, microphone and end-to-end usability require real-device testing. No merchant validation. |
+| Messaging and real action | WhatsApp adapters exist but are not connected to the deployed chat; suggested messages are simulated. | No delivered WhatsApp conversation or real business integration. Do not claim autonomous execution. |
+
+### Failure and recovery guide
+
+- **AI access disabled or invalid:** owner enters the private access code via Enable AI; without it the chat labels its rules-based answer. An invalid code causes a visible fallback.
+- **Provider timeout, quota failure or malformed answer:** the endpoint returns an error; chat labels the fallback and shows deterministic evidence. Retry later; never imply the model answered.
+- **Unsupported query or insufficient evidence:** the model is instructed to ask for missing information; the fallback reports no relevant records. Prompt instructions are not a guarantee against fabricated claims.
+- **CSV invalid, too large, or unsupported format:** upload rejects it with an explanation. Upload supports CSV only and never changes the Meltado dashboard; check period, duplicates and whether amounts include tax.
+- **Microphone unavailable:** type the same question. Browser speech recognition and voice quality depend on the device and provider.
+- **Messaging service unavailable:** use the in-app simulated draft and disclose that no message was sent. No payment, supplier order or personnel change occurs.
+- **Page refresh or device change:** CSV analysis and AI access are held in the current browser session; demo business figures are stored locally. There is no cross-device sync.
+
+### Highest-value next work
+
+1. Build an explicit, validated tool-calling interface that the model actually invokes, and show a trace comparing results with and without the tool. This is the most important gap for the AI Agents track.
+2. Assemble an independently labelled multilingual evaluation set covering ambiguous routing, sentiment, unsupported claims and numerical entailment; record precision/recall, hallucination rate and latency.
+3. Add tenant authentication, server-side rate and budget limits, audit logs, consent and a documented provider retention policy before real business use.
+4. Validate with merchants, run real-device accessibility/voice testing, and integrate one permissioned live data source before claiming operational impact.

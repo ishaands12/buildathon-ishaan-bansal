@@ -134,3 +134,4 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #ff
 .chart-col:nth-child(2) .chart-bar{animation-delay:.05s}.chart-col:nth-child(3) .chart-bar{animation-delay:.1s}.chart-col:nth-child(4) .chart-bar{animation-delay:.15s}.chart-col:nth-child(5) .chart-bar{animation-delay:.2s}.chart-col:nth-child(6) .chart-bar{animation-delay:.25s}.chart-col:nth-child(7) .chart-bar{animation-delay:.3s}
 .chart-col>span{animation:biz-value-in .45s .3s both}.chart-col:hover .chart-bar{filter:brightness(1.25)}
 @media(prefers-reduced-motion:reduce){.chart-bar,.chart-col>span{animation:none;transition:none}}
+.is-hidden{display:none!important}.overview-grid:has(.sales.is-hidden){grid-template-columns:1fr}

@@ -77,3 +77,7 @@ All specialist results are deterministic functions over supplied values. They do
 6. Explain local browser storage, supported questions, and current WhatsApp limitation.
 
 Meta's webhook requires a properly configured app and HTTPS endpoint; Twilio's limited trial rejected our direct custom message. Never display or commit `.env`, auth tokens or personal phone numbers. Do not expose a local tunnel to live sensitive data.
+
+## Current deployed chat path (November 18 update)
+
+The deployed chat uses deterministic rules to select specialist calculations. It sends the user's question, up to six recent messages and the selected evidence to `/api/chat`; the protected Vercel function calls Inception Mercury for a natural-language answer and a coarse sentiment label for the current message. The browser renders the original evidence separately. The model is prompted not to invent figures or execute actions, but this is not a formal guarantee. On missing access, upstream failure or malformed output, the chat labels the rules-based fallback. Uploading a CSV does not update the café dataset; when explicitly asked about that file with AI enabled, its calculated summary is sent as evidence. This current path supersedes earlier local-classifier-only descriptions where they conflict. The model does not autonomously invoke specialists or execute external actions.
