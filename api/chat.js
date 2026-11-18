@@ -1,9 +1,6 @@
-const crypto=require('node:crypto');
 module.exports=async function(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});
- const expected=process.env.BIZ_ACCESS_CODE||'',supplied=String(req.headers['x-biz-code']||'');
- if(!expected||Buffer.byteLength(supplied)!==Buffer.byteLength(expected)||!crypto.timingSafeEqual(Buffer.from(supplied),Buffer.from(expected)))return res.status(401).json({error:'Invalid access code'});
  const {question,evidence,history}=req.body||{};
  if(typeof question!=='string'||!question.trim()||question.length>500||typeof evidence!=='string'||evidence.length>6000||!Array.isArray(history)||history.length>6||history.some(x=>!x||!['user','assistant'].includes(x.role)||typeof x.content!=='string'||x.content.length>1000))return res.status(400).json({error:'Invalid request'});
  if(!process.env.INCEPTION_API_KEY)return res.status(503).json({error:'AI unavailable'});
