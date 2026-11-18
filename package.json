@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "node server.js",
-    "test": "node --test app/*.test.js whatsapp/*.test.js",
-    "whatsapp": "node whatsapp/server.js"
+    "test": "node --test app/*.test.js whatsapp/*.test.js twilio/*.test.js",
+    "whatsapp": "node whatsapp/server.js",
+    "twilio": "node twilio/server.js"
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "twilio": "^6.3.0"
   }
 }
