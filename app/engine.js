@@ -23,7 +23,7 @@ export function getIntent(text) {
  const q=text.toLowerCase();
  if(/margin|profit|cost|expense|food cost|लागत|मुनाफ|मुनाफा/.test(q)) return 'finance';
  if(/menu|best.?sell|popular|top item|coffee|panini|dessert|मेन्यू|कॉफी/.test(q)) return 'menu';
- if(/stock|atta|order|samaan|saman|milk|beans|doodh|स्टॉक|आटा|सामान|माल|दूध/.test(q)) return 'stock';
+ if(/stock|inventory|atta|order|samaan|saman|milk|beans|doodh|स्टॉक|आटा|सामान|माल|दूध/.test(q)) return 'stock';
  if(/cash|upi|payment|settle|mismatch|कैश|नकद|यूपीआई|पेमेंट|पैसे का मिलान/.test(q)) return 'cash';
  if(/udhaar|udhar|credit|due|outstanding|paisa|receiv|उधार|बकाया|वसूली/.test(q)) return 'udhaar';
  if(/staff|team|employee|aman|pooja|ravi|स्टाफ|कर्मचारी|टीम|अमन|पूजा/.test(q)) return 'staff';
