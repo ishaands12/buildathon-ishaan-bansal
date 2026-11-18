@@ -43,3 +43,9 @@
 ## Next evaluation priorities
 
 Before real use, obtain permissioned transaction and inventory data; validate with café owners; build a held-out Hindi/Hinglish query set including ambiguous and adversarial prompts; measure classifier precision/recall by specialist, numerical correctness and end-to-end latency; test real voice across devices and privacy settings; add durable delivery and consent; perform independent security and accessibility reviews. Do not infer real-world performance from this demo set.
+
+## Update: sales CSV analysis and deployment preparation
+
+A browser-local CSV path now sums the required amount column using integer paise, supports optional item and date columns, includes negative values, rejects malformed or ambiguous input and states its assumptions. Four unit tests cover quoted fields, refunds, invalid inputs and exact totals; the full suite passes 30 tests. This is a narrow, deterministic file analysis, not general document understanding: no PDF/OCR/Excel, accounting reconciliation, tax, profit or automated classification. The dashboard and other specialist answers continue to use simulated Meltado data and do not ingest this file. Browser upload and independent owner testing remain unverified.
+
+`npm run build` creates a static-only `dist/` directory; the hosted app will use rules rather than local Ollama. There is no verified public deployment or end-to-end WhatsApp service yet. The earlier rubric scores remain provisional; no owner research or independent evaluation has been added.

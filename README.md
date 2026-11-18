@@ -183,3 +183,11 @@ The local `twilio/` adapter verifies incoming Twilio signatures with the officia
 Meltado's Karkardooma location is listed at Plot 4, Kiran Vihar, Delhi. This independent example uses 12 selected item names and listed prices from the [public online menu](https://www.zomato.com/ncr/meltado-1-karkardooma-new-delhi/order), viewed 18 November 2026. It is not a complete menu and prices may vary by date, channel and location. The [District listing](https://www.district.in/dining/ncr/meltado-1-karkardooma-new-delhi) provides additional location context.
 
 All item quantities, order counts, seven-day totals, ingredient costs, expenses, suppliers, payment records, receivables, employees and actions are invented. There is no connection to Meltado's systems and no endorsement is implied. Wednesday's sample gross sales equals the sum of the sample item quantities multiplied by the listed prices. Contribution subtracts invented ingredient costs; the scenario remainder additionally subtracts illustrative labour and overhead inputs and is not net profit. Taxes, discounts, platform fees, waste, financing and other expenses are not modeled.
+
+### Analyse an uploaded sales document
+
+In chat choose **Upload sales**, then select a UTF-8 `.csv` with one `amount` column (rupees, up to two decimal places). Optional `item` and `date` columns provide item totals and a count of distinct date strings. Negative amounts are included as refunds. Download the sample from the upload dialog or use `docs/sample-sales.csv`. Files are processed in browser memory and are not persisted or sent to BIz; uploading does not replace or update the separate fictional Meltado dashboard. Ask “summarise uploaded file” to see the analysis again. PDF, scanned receipts, Excel, generic document Q&A, taxes, profit and automatic data cleansing are not supported. Confirm period, duplicate rows, tax treatment and meaning of amounts before using results.
+
+### Static deployment
+
+Run `npm run build` and deploy only `dist/` (for example with Netlify Drop). The static site uses the rule-based planner; Ollama's optional classifier and WhatsApp webhook servers are available only on separately configured local/server deployments. Do not deploy `.env`, the repository, or business data. This is a demonstration with no authentication or production security review.

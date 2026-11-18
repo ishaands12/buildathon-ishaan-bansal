@@ -3,8 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
 import { validatePlan } from './app/agent.js';
 const root=process.cwd(), port=process.env.PORT||4173;
-const files=new Set(['/index.html','/app/main.js','/app/engine.js','/app/agent.js','/app/meltado.js','/app/state.js','/app/style.css','/dashboard.html','/app/dashboard.js','/app/dashboard.css','/app/cafe-sections.js']);
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
+const files=new Set(['/index.html','/docs/sample-sales.csv','/app/main.js','/app/document.js','/app/engine.js','/app/agent.js','/app/meltado.js','/app/state.js','/app/style.css','/dashboard.html','/app/dashboard.js','/app/dashboard.css','/app/cafe-sections.js']);
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.csv':'text/csv; charset=utf-8'};
 http.createServer(async(req,res)=>{
  try {
   const url=new URL(req.url,'http://localhost');
