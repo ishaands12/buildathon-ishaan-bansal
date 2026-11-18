@@ -3,12 +3,16 @@ import { readFile } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
 import { validatePlan } from './app/agent.js';
 const root=process.cwd(), port=process.env.PORT||4173;
-const files=new Set(['/index.html','/app/main.js','/app/engine.js','/app/agent.js','/app/style.css']);
+const files=new Set(['/index.html','/app/main.js','/app/engine.js','/app/agent.js','/app/state.js','/app/style.css','/dashboard.html','/app/dashboard.js','/app/dashboard.css']);
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
 http.createServer(async(req,res)=>{
  try {
   const url=new URL(req.url,'http://localhost');
   const path=url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname);
+  if(req.method==='GET' && path==='/api/status'){
+   try{const response=await fetch('http://127.0.0.1:11434/api/tags',{signal:AbortSignal.timeout(1200)});if(!response.ok)throw Error();const info=await response.json();const model=process.env.BIZ_OLLAMA_MODEL||'qwen2.5-coder:7b';res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify({available:info.models?.some(m=>m.name===model)===true,model}))}
+   catch{res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify({available:false,model:process.env.BIZ_OLLAMA_MODEL||'qwen2.5-coder:7b'}))}return;
+  }
   if(req.method==='POST' && path==='/api/intent'){
    const origin=req.headers.origin;
    if(origin && origin!==`http://localhost:${port}` && origin!==`http://127.0.0.1:${port}`){res.writeHead(403).end();return}
