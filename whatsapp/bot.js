@@ -23,7 +23,7 @@ export async function classifyLocally(question,fetcher=fetch){
  if(!res.ok)throw Error('classifier unavailable');const data=await res.json();return {tasks:validatePlan(data.message?.content)};
 }
 export async function answerMessage(msg,{classify=classifyLocally}={}){
- if(msg.type!=='text'||typeof msg.text!=='string')return 'Namaste! Abhi main sirf text messages samajhta hoon. Sales, cash, stock, udhaar ya staff ke baare mein likhiye. Voice notes jaldi aayenge.';
+ if(msg.type!=='text'||typeof msg.text!=='string')return 'Namaste! Abhi main sirf text messages samajhta hoon. Sales, cash, stock, udhaar ya staff ke baare mein likhiye. Voice notes ke liye filhaal text bhejiye.';
  if(msg.text.length>500)return 'Sawaal 500 characters se chhota rakhiye.';
  const text=msg.text.trim();if(!text)return 'Namaste! Apne dhandhe ke baare mein sawaal likhiye.';
  const results=await orchestrate(text,seed,makeCases(seed),classify);
