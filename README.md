@@ -118,11 +118,36 @@ See [RULES.md](RULES.md) for the full list.
 
 ## Your project
 
-_Replace this section with your project README:_
-- **Team:**
-- **Track:**
-- **Problem:** who faces it and why it happens
-- **What we built:** the core workflow
-- **The hardest part:** how we solved it
-- **How to run it:**
-- **Demo / screenshots:**
+### BIz — your dhandha companion
+
+**Team:** Ishaan Bansal  
+**Track:** Physical World
+
+**Problem:** Indian shop owners make time-sensitive decisions while sales, cash, UPI, stock and customer credit sit in different places. A busy owner needs a short, trustworthy answer and a next step in a familiar conversation, not another dashboard or a score that blames a staff member.
+
+**What we built:** A WhatsApp-style business companion for a fictional general store. Ask about sales, stock, cash, UPI, udhaar or team activity; edit sample figures and see calculations update. Tap **Zaroori baatein** to inspect the evidence, assumptions and a proposed next action. Review or edit a message and simulate sending it. No real WhatsApp, email, supplier order, or payment connection is active.
+
+**Hardest part:** Turn imperfect operational signals into useful, auditable decisions. The engine calculates cash/UPI differences, days of stock cover and pack-rounded reorder quantities, and overdue balances. It states assumptions, does not infer theft from a mismatch, and requires owner approval. Sales are not profit; staff sales are not an employee performance ranking.
+
+### Run locally
+
+Requires Node.js 18 or newer. No installation or API key is needed.
+
+```bash
+npm run dev
+```
+
+Open http://localhost:4173. Run `npm test` for the decision-engine checks. The app also consists of static files and can be hosted on a static site provider.
+
+### Two-minute demo
+
+1. Tap **Zaroori baatein**. Open the cash/UPI discrepancy and read the arithmetic and caveat.
+2. Open the stock warning: 8 packs ÷ 5 per day = 1.6 days. The suggested reorder covers seven days, rounded to the supplier's 20-pack minimum.
+3. Review the supplier message, edit it if desired, and tap **Simulate send**. The transcript explicitly confirms that no message was sent.
+4. Tap **Hisaab dekhein**, change sales or stock numbers, save, and ask the question again to see a new calculation.
+
+### Scope and limitations
+
+This is a local, session-only prototype with fictional data. The conversation uses a deterministic keyword router, not a large language model; it cannot answer arbitrary business questions. It does not import accounting files, maintain a real ledger, connect to WhatsApp or email, place orders, or persist changes. Stock cover assumes recent daily sales continue and ignores pending orders; credit reminders require checking for recent payments. Test the workflow with merchants before relying on it for decisions.
+
+The opportunity is grounded in India's large MSME sector, but this prototype's shop, numbers and interactions are illustrative. The [Ministry of MSME annual report](https://www.msme.gov.in/sites/default/files/MSME-ANNUAL-REPORT-2024-25-ENGLISH.pdf) provides broader sector context. The [RBI's research on digital payments](https://rbi.org.in/scripts/PublicationsView.aspx?id=22459) discusses how payment histories can reveal business cash-flow patterns. Neither source validates this prototype or its assumptions.
