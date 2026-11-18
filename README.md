@@ -125,7 +125,7 @@ See [RULES.md](RULES.md) for the full list.
 
 **Problem:** Indian shop owners make time-sensitive decisions while sales, cash, UPI, stock and customer credit sit in different places. A busy owner needs a short, trustworthy answer and a next step in a familiar conversation, not another dashboard or a score that blames a staff member.
 
-**What we built:** A WhatsApp-style business companion for a fictional general store. Ask about sales, stock, cash, UPI, udhaar or team activity; edit sample figures and see calculations update. Tap **Zaroori baatein** to inspect the evidence, assumptions and a proposed next action. Review or edit a message and simulate sending it. No real WhatsApp, email, supplier order, or payment connection is active.
+**What we built:** A WhatsApp-style business companion and dashboard for an illustrative Meltado café scenario. It is an independent demo, not an official Meltado product. Ask about sales, stock, cash, UPI, udhaar or team activity; edit sample figures and see calculations update. Tap **Zaroori baatein** to inspect the evidence, assumptions and a proposed next action. Review or edit a message and simulate sending it. No real WhatsApp, email, supplier order, or payment connection is active.
 
 **Hardest part:** Turn imperfect operational signals into useful, auditable decisions. The engine calculates cash/UPI differences, days of stock cover and pack-rounded reorder quantities, and overdue balances. It states assumptions, does not infer theft from a mismatch, and requires owner approval. Sales are not profit; staff sales are not an employee performance ranking.
 
@@ -142,9 +142,9 @@ Open http://localhost:4173 for the owner chat, or http://localhost:4173/dashboar
 ### Two-minute demo
 
 1. Tap **Zaroori baatein**. Open the cash/UPI discrepancy and read the arithmetic and caveat.
-2. Open the stock warning: 8 packs ÷ 5 per day = 1.6 days. The suggested reorder covers seven days, rounded to the supplier's 20-pack minimum.
+2. Open the stock warning: 8 litres ÷ 5 litres per day = 1.6 days. The suggested reorder covers seven days of assumed milk usage, rounded to 5-litre supplier packs.
 3. Review the supplier message, edit it if desired, and tap **Simulate send**. The transcript explicitly confirms that no message was sent.
-4. Tap **Hisaab dekhein**, change sales or stock numbers, save, and ask the question again to see a new calculation.
+4. Tap **Hisaab dekhein**, change cash or stock numbers, save, and ask the question again to see a new calculation.
 
 ### Scope and limitations
 
@@ -177,3 +177,9 @@ The service validates Meta's HMAC signature before processing, filters the confi
 ### Twilio WhatsApp proof of concept
 
 The local `twilio/` adapter verifies incoming Twilio signatures with the official SDK and produces TwiML responses for an allowlisted number. This is intended for the legacy WhatsApp Sandbox only, and has not been tested against a real Twilio account. Twilio says the newer trial environment does not support direct TwiML response XML, so this adapter is not expected to work there without a different supported reply mechanism. Availability, verification, free-unit limits and pricing depend on the account; see [Twilio trial details](https://www.twilio.com/docs/usage/trials/try-out-whatsapp). It remains a demo with fictional data and no voice notes or real business actions.
+
+### Meltado simulation and provenance
+
+Meltado's Karkardooma location is listed at Plot 4, Kiran Vihar, Delhi. This independent example uses 12 selected item names and listed prices from the [public online menu](https://www.zomato.com/ncr/meltado-1-karkardooma-new-delhi/order), viewed 18 November 2026. It is not a complete menu and prices may vary by date, channel and location. The [District listing](https://www.district.in/dining/ncr/meltado-1-karkardooma-new-delhi) provides additional location context.
+
+All item quantities, order counts, seven-day totals, ingredient costs, expenses, suppliers, payment records, receivables, employees and actions are invented. There is no connection to Meltado's systems and no endorsement is implied. Wednesday's sample gross sales equals the sum of the sample item quantities multiplied by the listed prices. Contribution subtracts invented ingredient costs; the scenario remainder additionally subtracts illustrative labour and overhead inputs and is not net profit. Taxes, discounts, platform fees, waste, financing and other expenses are not modeled.
