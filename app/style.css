@@ -72,3 +72,59 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  .voice-controls{font-size:10px}
 }
 .data-form{box-shadow:none}
+
+/* BIz identity: a quiet, legible chat in black, white and red. */
+:root{color-scheme:dark;color:#f4f3f1;background:#050505}
+body,.shell,.conversation{background:#050505;color:#f4f3f1}
+.header{background:#080808;border-color:#242424;color:#f4f3f1}
+.logo,.bot-icon{background:#f0efec;color:#080808}
+.logo span,.bot-icon span{color:#d92e35}
+.head-text strong{color:#f4f3f1}
+.head-text strong span,.head-text small{color:#a6a5a3}
+.head-text i{background:#e53935}
+.header-btn{background:#121212;border-color:#353535;color:#ecebe9}
+.header-btn:hover{background:#202020}
+.demo-strip{background:#141010;color:#c9b6b6;border-color:#342020}
+.demo-strip span{color:#f48e91}
+.day-label{color:#a3a19f}
+.bubble{color:#f0efed}
+.bubble.user{background:#222;color:#f5f4f2}
+.timestamp{color:#999795}
+.bottom{background:#050505}
+.voice-controls,.quick-label{color:#aeadab}
+.voice-controls select,.voice-controls button{background:#151515;border-color:#3a3a3a;color:#dedcda}
+.quick-actions button{background:#151515;border-color:#363636;color:#e4e2df}
+.quick-actions button:hover{background:#252525;border-color:#6b4141}
+.quick-actions b{background:#35302f;color:#f1e4e3}
+#chat-form{background:#151515;border-color:#3a3a3a;box-shadow:none}
+#chat-form:focus-within{border-color:#b75559}
+#chat-form input{background:transparent;color:#f6f5f3}
+#chat-form input::placeholder{color:#96928f}
+#chat-form button[type=submit],.primary{background:#e53935;color:white}
+#chat-form button[type=submit]:hover,.primary:hover{background:#bf292e}
+.mic{background:#292929!important;color:#f5f3f1!important}
+.mic.listening{background:#84262c!important}
+.bottom-note{color:#a29f9c}
+.case-card{background:#101010;border-color:#3a2525;box-shadow:none}
+.case-tag,.modal-tag{color:#f18d90}
+.case-card h3{color:#fff}
+.case-card p{color:#d1cfcc}
+.proof{background:#1d1d1d;color:#e0ddda;border-left:2px solid #b9343a}
+.proof strong,.next strong{color:#f0eeeb}
+.caution{border-color:#b3734e;color:#ddc4b4}
+.action-button{background:#e53935;color:#fff}
+.action-button:hover{background:#bd2b30}
+.action-button:disabled{background:#282828;color:#a7a4a1}
+.overlay{background:#000b}
+.modal{background:#121212;border-color:#3a3a3a;color:#f4f3f1}
+.modal h2,.to-field{color:#faf8f6}
+.modal p,.to-field span{color:#c2bfbb}
+.modal label{color:#b7b2ae}
+.modal textarea,.modal select,.data-form .field input{background:#1d1d1d;border-color:#424242;color:#f5f4f1}
+.data-form .field{color:#d7d3cf}
+.secondary{background:#202020;border-color:#474747;color:#eee}
+.close{color:#c6c2be}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f08b8d;outline-offset:2px}
+/* Keep the BIz wordmark readable while the assistant avatar remains round. */
+.logo{width:62px;height:44px;flex:none;border-radius:9px;font-size:27px;line-height:42px;letter-spacing:-1.5px;padding-right:0}
+@media(max-width:600px){.logo{width:56px;height:40px;line-height:38px;font-size:24px}}

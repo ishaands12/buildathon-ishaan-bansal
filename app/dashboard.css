@@ -68,3 +68,62 @@ footer{color:#a0a1a4}
 th{color:#909194;border-color:#ededed}td{color:#77797c;border-color:#f0f0f0}td strong{color:#333}
 .table-foot,.econ-note{color:#8b8d90!important}.econ-row,.stock-row{border-color:#ededed;color:#77797c}.econ-row strong,.stock-row strong{color:#3a3c3e}.econ-row.emphasis,.econ-row.emphasis strong{color:#303234}.stock-row small{color:#8b8d90}.stock-row>span,.team-list span{background:#f3f3f3;color:#606367}.team-label{color:#909295}
 @media(max-width:720px){.heading h1{font-size:30px}.metric strong{font-size:23px}.panel h2{font-size:20px}.cafe-kpis>div:nth-child(-n+2){border-bottom-color:#ededed}}
+
+/* BIz identity: black, white, red, and editorial clarity. */
+:root{color:#f3f2f0;background:#080808;color-scheme:dark}
+body{background:#080808;color:#f3f2f0}
+.sidebar{background:#0b0b0c;color:#efefed;border-right:1px solid #272729}
+.brand{color:#faf9f7;letter-spacing:-.035em}
+.brand small{color:#a5a3a0;letter-spacing:.13em}
+.logo{width:56px;min-width:56px;background:transparent;color:#fff;border-radius:0;font-family:'DM Serif Display',serif;font-weight:400;letter-spacing:-.055em;font-size:30px;line-height:42px;padding:0;text-align:left}
+.logo span{color:#e53935}
+.side-kicker,.breadcrumb,.eyebrow{color:#aaa8a5}
+.side-link{color:#b7b5b2}
+.side-link:hover{background:#1b1b1d;color:#fff}
+.side-link.active{background:#211416;color:#fff;box-shadow:inset 2px 0 #e53935}
+.side-link b{background:#351719;color:#ffaca8}
+.sidebar-bottom{border-color:#303032}.sidebar-bottom strong{color:#eee}.sidebar-bottom small{color:#a2a09e}
+.avatar{background:#262124;color:#f1d9d8}
+.top{background:#080808;border-color:#29292b}
+.breadcrumb span{color:#686568}.breadcrumb strong{color:#e9e7e5}
+.sample,.local-label{color:#aaa8a5}.sample i{background:#e53935}
+.chat-button,.bridge a{background:#e53935;color:#fff;border:1px solid #e53935}
+.chat-button:hover,.bridge a:hover{background:#c92f2c;border-color:#c92f2c}
+.notice{background:#171112;border:1px solid #542428;color:#d7c5c3}
+.notice>span,.notice a{color:#ff8d86}
+.heading h1,.panel h2,.metric strong,.cafe-kpis strong{color:#f6f5f3}
+.heading h1{font-family:'DM Serif Display',serif;font-size:44px;font-weight:400;letter-spacing:-.035em}
+.heading h1 em{font-family:inherit;font-style:italic;color:#f0eeeb;font-weight:400}
+.eyebrow span,.panel h2 span,.metric>span b{color:#e53935}
+.heading p,.panel p{color:#b4b1ae}
+.date span,.metric>span,.cafe-kpis span{color:#aaa8a5}
+.date strong{color:#e6e3e1}
+.metric,.panel{background:#111112;border-color:#303032;border-radius:12px;box-shadow:none}
+.metric strong{font-family:'DM Sans',sans-serif;font-size:29px;font-weight:700;letter-spacing:-.04em}
+.metric small{color:#b7b5b1}
+.panel h2{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.035em}
+.panel-title>a,.case-detail a{color:#ff8b83}
+.filters button{background:#181819;border-color:#343436;color:#c8c5c2}
+.filters button.selected{background:#f3f1ef;border-color:#f3f1ef;color:#161616}
+.case,.activity-row{border-color:#29292b}
+.case-icon,.case:nth-child(2) .case-icon,.case:nth-child(3) .case-icon,.activity-icon{background:#281719;color:#ff8e87}
+.case-text small{color:#b0adaa}.case-text strong{color:#f0eeec}.case-text>span{color:#b7b4b1}.expand{color:#bcb8b5}
+.case-detail{border-color:#a72e30}.case-detail b{color:#e09a95}.case-detail p{color:#ddd9d7}.case-detail div{color:#c5bbb2}
+.bar{background:#29292b}.bar i{background:#e53935}.bar.muted i{background:#8d8887}
+.bar-row>div:first-child,.balance{color:#bab7b4}.bar-row strong,.balance strong{color:#f0edeb}
+.sales-note,.flow{background:#19191a;border-color:#2c2c2e;color:#c0bdba}
+.sales-note span{color:#ff8b83}.section-divider{background:#303032}
+.model,.model.online{background:#241719;color:#f1b1ac}.model i,.model.online i{background:#e53935}
+.flow>div span{color:#ef8e88}.flow strong{color:#efedeb}.flow small{color:#b0adaa}.flow>b{color:#8c7777}
+.agent{background:#141415;border-color:#323234}.agent-icon{background:#291719;color:#f1928c}.agent strong{color:#eee}.agent small,.agent span,.system-foot,.empty{color:#b4b1ae}
+.activity-row strong{color:#eee}.activity-row small,.activity-row time{color:#b1aeac}
+.bridge{background:#1b1112;border-color:#562326}.bridge:after{color:#652327;opacity:.28}.bridge-icon{background:#391a1b;color:#ff8c84}.bridge p,.bridge small{color:#c1b4b1}
+footer{color:#999592}
+.cafe-kpis{background:#19191a}.cafe-kpis>div{border-color:#343436}.cafe-kpis small{color:#b4b1ae}
+.chart-col>span,.chart-col strong,.chart-foot{color:#b6b2af}.chart-track{border-color:#4b4848}.chart-bar{background:#817b7b}.chart-bar.current{background:#e53935}
+.category-pills span{background:#21191a;color:#d2b7b4}.category-pills b{color:#f6eeec}
+th{color:#b1aeab;border-color:#333}td{color:#c2bfbc;border-color:#29292b}td strong{color:#f0edeb}
+.table-foot,.econ-note{color:#b4b0ad!important}.econ-row,.stock-row{border-color:#303032;color:#bcb9b6}.econ-row strong,.stock-row strong{color:#efedeb}.econ-row.emphasis,.econ-row.emphasis strong{color:#fff}.stock-row small{color:#b4b1ae}.stock-row>span,.team-list span{background:#27191a;color:#efc6c1}.team-label{color:#a8a5a2}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #ff8d86;outline-offset:3px}
+@media(max-width:1000px){.brand .logo{width:44px;min-width:44px;text-align:center;font-size:25px;letter-spacing:-.06em}.sidebar-bottom .avatar{color:#f1d9d8}}
+@media(max-width:720px){.brand .logo{width:38px;min-width:38px;font-size:22px;line-height:35px}.heading h1{font-size:32px}.metric strong{font-size:24px}.panel h2{font-size:20px}.cafe-kpis>div:nth-child(-n+2){border-bottom-color:#343436}}
