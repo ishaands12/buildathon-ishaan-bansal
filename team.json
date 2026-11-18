@@ -1,9 +1,7 @@
 {
-  "team_name": "CHANGE_ME",
-  "project_title": "CHANGE_ME",
-  "one_liner": "CHANGE_ME: one sentence about what you're building",
-  "track": "CHANGE_ME: physical-world | ai-agents | area-of-expertise",
-  "members": [
-    { "name": "CHANGE_ME", "github": "CHANGE_ME" }
-  ]
+  "team_name": "Ishaan Bansal",
+  "project_title": "BIz",
+  "one_liner": "A shop-floor agent that turns daily business signals into decisions for Indian merchants.",
+  "track": "physical-world",
+  "members": [{ "name": "Ishaan Bansal", "github": "ishaands12" }]
 }
