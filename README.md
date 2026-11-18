@@ -191,3 +191,11 @@ In chat choose **Upload sales**, then select a UTF-8 `.csv` with one `amount` co
 ### Static deployment
 
 Run `npm run build` and deploy only `dist/` (for example with Netlify Drop). The static site uses the rule-based planner; Ollama's optional classifier and WhatsApp webhook servers are available only on separately configured local/server deployments. Do not deploy `.env`, the repository, or business data. This is a demonstration with no authentication or production security review.
+
+### Watch the BIz demo
+
+[▶ Watch the BIz and Meltado demo video](https://biz-meltado-assistant.vercel.app/biz-demo.mp4) (illustrated demo; operational figures are simulated).
+
+### Inception classifier on Vercel
+
+The Vercel deployment can use Inception Mercury to classify chat questions after the owner enters the private AI access code using **AI access**. Questions are sent to Inception; document uploads stay in the browser. Calculations and responses are deterministic, and local rules are used if the classifier is unavailable. The access code is stored only for the browser session; it is a demo gate, not a production identity or rate-limiting system. `INCEPTION_API_KEY` and `BIZ_ACCESS_CODE` belong in sensitive Vercel environment variables, never in source control. The serverless handler is `api/intent.js`; copy it into `dist/api/` when deploying the static build through the Vercel API.
