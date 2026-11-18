@@ -9,3 +9,4 @@ test('zero baseline does not claim infinite growth',()=>{let d=structuredClone(s
 test('zero daily demand does not trigger a reorder',()=>{let d=structuredClone(seed);d.inventory.forEach(i=>i.daily=0);assert.equal(makeCases(d).filter(x=>x.area==='Inventory').length,0)});
 
 test('overages are reported as over, not as a negative shortage',()=>{let d=structuredClone(seed);d.sales.cashCounted=14000;let c=makeCases(d).find(x=>x.id==='reconcile');assert.match(c.summary,/1,400 over/)});
+test('Hindi voice transcription maps to stock and cash questions',()=>{assert.match(respond('आटा कितने दिन चलेगा',seed,makeCases(seed)),/packs remain/);assert.match(respond('कैश का हिसाब',seed,makeCases(seed)),/short/)});

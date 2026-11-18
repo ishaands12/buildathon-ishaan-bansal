@@ -16,12 +16,22 @@ export function makeCases(data) {
   if(overdue && overdue.amount>0)cases.push({id:'udhaar',area:'Udhaar',priority:'MEDIUM',title:`${money(overdue.amount)} due from ${overdue.name}`,summary:`The balance has been open for ${overdue.days} days.`,evidence:[`Open balance: ${money(overdue.amount)}`,`Age: ${overdue.days} days; reminder threshold: 7 days`],uncertainty:'Confirm the ledger and any recent payment before contacting the customer.',action:`Draft a polite payment reminder to ${overdue.name}.`,recipient:overdue.name,channel:'WhatsApp',message:`Namaste, aapke account mein ${money(overdue.amount)} ka balance dikh raha hai. Jab convenient ho please check kar lijiyega; agar payment ho gayi ho toh ignore karein. Dhanyavaad.`});
   return cases;
 }
-export function respond(text,data,cases) {
+// Intent is deliberately limited; calculations never come from a language model.
+export function getIntent(text) {
  const q=text.toLowerCase();
- if(/stock|atta|order|samaan|saman/.test(q)){const c=cases.find(x=>x.area==='Inventory');return c?`${c.summary} ${c.evidence.join(' · ')} ${c.uncertainty}`:'No item is below the 3-day stock threshold in the demo data.';}
- if(/cash|upi|payment|settle|mismatch/.test(q)){const c=cases.find(x=>x.id==='reconcile');return c?`${c.summary} ${c.uncertainty}`:'The demo cash and UPI totals match.';}
- if(/udhaar|credit|due|outstanding|paisa|receiv/.test(q))return `Total udhaar is ${money(data.receivables.reduce((a,x)=>a+x.amount,0))}. ${cases.find(x=>x.id==='udhaar')?.summary || ''} Check for recent payments first.`;
- if(/staff|team|employee|aman|pooja|ravi/.test(q))return data.staff.map(p=>`${p.name} (${p.role}): ${p.sales === null ? 'stock duty; no sales figure' : money(p.sales)+' recorded sales'}`).join(' · ')+'. Roles differ, so these figures do not measure individual performance.';
- if(/sale|business|aaj|today|revenue|bikri/.test(q)){let d=data.sales.previous>0?(data.sales.today/data.sales.previous-1)*100:null;return d===null ? `Today’s recorded sales are ${money(data.sales.today)}. The comparison day is zero, so a percentage change cannot be calculated. ${cases.length} items need attention.` : `Today’s recorded sales are ${money(data.sales.today)}, ${Math.abs(d).toFixed(1)}% ${d<0?'below':'above'} the comparison day (${money(data.sales.previous)}). This alone does not explain why. ${cases.length} items need attention.`;}
+ if(/stock|atta|order|samaan|saman|स्टॉक|आटा|सामान|माल/.test(q)) return 'stock';
+ if(/cash|upi|payment|settle|mismatch|कैश|नकद|यूपीआई|पेमेंट|पैसे का मिलान/.test(q)) return 'cash';
+ if(/udhaar|udhar|credit|due|outstanding|paisa|receiv|उधार|बकाया|वसूली/.test(q)) return 'udhaar';
+ if(/staff|team|employee|aman|pooja|ravi|स्टाफ|कर्मचारी|टीम|अमन|पूजा/.test(q)) return 'staff';
+ if(/sale|business|aaj|today|revenue|bikri|बिक्री|बिकरी|सेल|धंधा|दुकान|आज/.test(q)) return 'sales';
+ return 'unknown';
+}
+export function respond(text,data,cases) {
+ const intent=getIntent(text);
+ if(intent==='stock'){const c=cases.find(x=>x.area==='Inventory');return c?`${c.summary} ${c.evidence.join(' · ')} ${c.uncertainty}`:'No item is below the 3-day stock threshold in the demo data.';}
+ if(intent==='cash'){const c=cases.find(x=>x.id==='reconcile');return c?`${c.summary} ${c.uncertainty}`:'The demo cash and UPI totals match.';}
+ if(intent==='udhaar')return `Total udhaar is ${money(data.receivables.reduce((a,x)=>a+x.amount,0))}. ${cases.find(x=>x.id==='udhaar')?.summary || ''} Check for recent payments first.`;
+ if(intent==='staff')return data.staff.map(p=>`${p.name} (${p.role}): ${p.sales === null ? 'stock duty; no sales figure' : money(p.sales)+' recorded sales'}`).join(' · ')+'. Roles differ, so these figures do not measure individual performance.';
+ if(intent==='sales'){let d=data.sales.previous>0?(data.sales.today/data.sales.previous-1)*100:null;return d===null ? `Today’s recorded sales are ${money(data.sales.today)}. The comparison day is zero, so a percentage change cannot be calculated. ${cases.length} items need attention.` : `Today’s recorded sales are ${money(data.sales.today)}, ${Math.abs(d).toFixed(1)}% ${d<0?'below':'above'} the comparison day (${money(data.sales.previous)}). This alone does not explain why. ${cases.length} items need attention.`;}
  return 'I can help with today’s sales, cash and UPI, stock, udhaar, or staff activity. Try “atta kab khatam hoga?” or “cash ka kya scene hai?”';
 }
