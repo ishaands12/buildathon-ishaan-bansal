@@ -159,3 +159,17 @@ Press the microphone and allow microphone access. Select Hindi or English for re
 For the local model, start Ollama separately and ensure `qwen2.5-coder:7b` is installed, then start the app with `npm run dev`. Set `BIZ_OLLAMA_MODEL` to use another locally installed model. The browser sends the question to the local server, which asks Ollama for a list of domains only; the server validates this against an allowlist. It does not send shop figures to the model. The orchestrator runs the relevant sales, cash/UPI, stock, udhaar, or staff specialists and combines their deterministic results. The model has no tools to send messages, change data, or invent financial figures. If classification fails, the app falls back to local rules.
 
 **Concrete execution:** Proposed messages remain editable simulated drafts and require the owner to confirm. There are no actual payments, orders, messages or staffing actions. A static host can serve the interface and rule-based mode, but does not provide the Node server or local Ollama classifier.
+
+### WhatsApp test-number side agent
+
+The optional `whatsapp/` service is a separate Meta WhatsApp Cloud API webhook. It answers **incoming text messages only** from numbers in the allowlist, using the fictional seed shop and the same orchestrator. It labels every answer as sample data. It does not receive the browser's edited figures, process voice notes, contact customers or suppliers, or make payments. Local Ollama is optional; if unavailable it uses the rules-based planner.
+
+For a Meta test setup:
+
+1. In [Meta for Developers](https://developers.facebook.com/), create an app with the WhatsApp use case and obtain a test sender, phone number ID and test access token. Add your own WhatsApp number as an allowed test recipient in Meta. Keep the app in test/development mode for this demo.
+2. Copy `.env.example` to `.env` if needed, and fill in the app secret, access token, numeric phone number ID, and your own WhatsApp number with country code and digits only. Choose a long random verification token. Never commit `.env` or share credentials in chat.
+3. In a terminal in the repository, run `set -a; source .env; set +a; npm run whatsapp`. Keep the process running. Its default listener is `127.0.0.1:8788`.
+4. Expose only that port through an HTTPS tunnel, for example `ngrok http 8788`. In the Meta app dashboard, configure the callback as the tunnel URL plus `/webhook`, and use the same verify token as in `.env`. Subscribe to the `messages` webhook field. Meta requires an HTTPS callback; the temporary URL changes when the tunnel changes.
+5. From your allowlisted WhatsApp number, send the test number “cash aur stock batao”. You should receive a text response with the sample figures. The server does not initiate conversations.
+
+The service validates Meta's HMAC signature before processing, filters the configured sender and receiving phone number ID, and deduplicates retries in memory. This is a single-process demo: duplicate protection does not survive a restart; use persistent storage, a durable queue, proper tenant authentication, encrypted storage and monitoring before handling real customers or business data. The local tunnel and server stop when their processes stop. Test tokens expire according to Meta's configuration; production messaging and hosting can have charges.
